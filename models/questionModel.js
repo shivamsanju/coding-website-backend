@@ -1,6 +1,6 @@
 const sequelize = require("../config/db")
 const DataTypes = require('sequelize')
-// const questions = require("./data/questions")
+// const questions = require("../data/questions")
 
 const Questions = sequelize.define('Questions', {
     id:{
@@ -47,6 +47,10 @@ const Questions = sequelize.define('Questions', {
     done:{
         type: DataTypes.BOOLEAN,
         allowNull: false,
+    },
+    userId:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
     }  
   });
 
@@ -61,7 +65,8 @@ synchronizeTable();
 
 // questions.forEach(async (question) => {
 //     try{
-//         await Questions.create(question);
+//         let newques = {...question, userId: 2, done: false}
+//         await Questions.create(newques);
 //     } catch(err) {
 //         console.log(err);
 //     }
