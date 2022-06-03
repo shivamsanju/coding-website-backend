@@ -11,7 +11,10 @@ testConnection();
 
 // json parser
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    credentials: true,
+    origin: ['http://localhost:3000/','https://shvm-leetcode-frontend.herokuapp.com/']
+}));
 
 app.listen(process.env.PORT || 8000, (res, err)=>{
     if (err){
