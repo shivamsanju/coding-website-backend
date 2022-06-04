@@ -23,7 +23,7 @@ testConnection();
 app.use(express.json());
 app.use(cors({
     credentials: true,
-    origin:['https://shvm-leetcode-frontend.herokuapp.com','http://localhost:8000']
+    origin:['https://shvm-leetcode-frontend.herokuapp.com','http://localhost:3000']
 }));
 
 app.use(session(sess))
