@@ -7,8 +7,12 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
     if (!token) {
       res.status(401).send({"success": false, "message":"Please login first"});
     }else{
-      const decodedData = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = decodedData.userId;
+      try{
+        const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decodedData.userId;
+      } catch(e){
+        req.user = -1; // not a valid user
+      }
       next();
     }
 });
