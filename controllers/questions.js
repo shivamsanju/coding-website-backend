@@ -4,6 +4,9 @@ const sequelize = require("../config/db");
 
 exports.getAllQuestions = catchAsyncErrors(async (req, res, next) => {
   const questions = await Questions.findAll({
+    where: {
+      userId: req.user,
+    },
     order: [
       [
         sequelize.literal(
@@ -14,16 +17,21 @@ exports.getAllQuestions = catchAsyncErrors(async (req, res, next) => {
           END`
         ),
       ],
-      [
-        'id', 'ASC'
-      ]
+      ["id", "ASC"],
     ],
   });
 
-  res.status(200).json({
-    success: true,
-    questions,
-  });
+  if (questions) {
+    res.status(200).json({
+      success: true,
+      questions,
+    });
+  } else {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized",
+    });
+  }
 });
 
 exports.getStatus = catchAsyncErrors(async (req, res, next) => {
@@ -41,13 +49,21 @@ exports.getStatus = catchAsyncErrors(async (req, res, next) => {
 exports.setStatus = catchAsyncErrors(async (req, res, next) => {
   console.log(req.body);
   let { id, currStatus } = req.body;
-  const question = await Questions.findOne({ where: { id: id } });
-  await question.set({ done: currStatus });
-  await question.save();
-  console.log("done");
-
-  res.status(200).json({
-    success: true,
-    message: "Status updated successfully",
+  const question = await Questions.findOne({
+    where: { id: id, userId: req.user },
   });
+  if (question) {
+    await question.set({ done: currStatus });
+    await question.save();
+    console.log("done");
+    res.status(200).json({
+      success: true,
+      message: "Status updated successfully",
+    });
+  } else {
+    res.status(401).json({
+      success: false,
+      message: "unauthorized",
+    });
+  }
 });
