@@ -23,9 +23,11 @@ testConnection();
 app.use(express.json());
 app.use(cors({
     credentials: true,
-    origin:'https://shvm-leetcode-frontend.herokuapp.com'
+    origin:['https://shvm-leetcode-frontend.herokuapp.com','http://localhost:8000']
 }));
+
 app.use(session(sess))
+
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Accept, Content-Type")
     res.setHeader("Access-Control-Allow-Origin", "https://shvm-leetcode-frontend.herokuapp.com")
