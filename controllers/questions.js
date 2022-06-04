@@ -14,6 +14,9 @@ exports.getAllQuestions = catchAsyncErrors(async (req, res, next) => {
           END`
         ),
       ],
+      [
+        'id', 'ASC'
+      ]
     ],
   });
 
