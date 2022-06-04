@@ -2,6 +2,16 @@ const express = require('express')
 const cors = require('cors');
 const path = require("path");
 console.log(require("dotenv").config({path: path.resolve(__dirname,'config.env')}));
+const session = require('express-session')
+var sess = {
+  saveUninitialized: false,
+  resave: false,
+  secret: 'very secret 12345',
+  cookie: {
+    sameSite: 'none',
+    secure: true,
+  }
+}
 
 const app = express();
 
@@ -15,6 +25,15 @@ app.use(cors({
     credentials: true,
     origin:'https://shvm-leetcode-frontend.herokuapp.com'
 }));
+app.use(session(sess))
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Accept, Content-Type")
+    res.setHeader("Access-Control-Allow-Origin", "https://shvm-leetcode-frontend.herokuapp.com")
+    res.setHeader("Access-Control-Allow-Credentials", true)
+    res.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH")
+    next();
+})
+
 
 app.listen(process.env.PORT || 8000, (res, err)=>{
     if (err){
