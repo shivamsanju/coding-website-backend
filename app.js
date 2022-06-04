@@ -29,8 +29,12 @@ app.use(cors({
 app.use(session(sess))
 
 app.use((req, res, next) => {
+    const allowedOrigins = ['http://localhost:3000', 'https://shvm-leetcode-frontend.herokuapp.com'];
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+         res.setHeader('Access-Control-Allow-Origin', origin);
+    }
     res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Accept, Content-Type")
-    res.setHeader("Access-Control-Allow-Origin", "https://shvm-leetcode-frontend.herokuapp.com")
     res.setHeader("Access-Control-Allow-Credentials", true)
     res.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH")
     next();
