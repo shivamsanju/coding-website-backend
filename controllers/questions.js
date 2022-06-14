@@ -1,6 +1,6 @@
-const catchAsyncErrors = require("../middleware/catchAsyncErrors");
-const Questions = require("../models/questionModel");
-const sequelize = require("../config/db");
+const catchAsyncErrors = require('../middleware/catchAsyncErrors');
+const Questions = require('../models/questionModel');
+const sequelize = require('../config/db');
 
 exports.getAllQuestions = catchAsyncErrors(async (req, res, next) => {
   const questions = await Questions.findAll({
@@ -17,7 +17,7 @@ exports.getAllQuestions = catchAsyncErrors(async (req, res, next) => {
           END`
         ),
       ],
-      ["id", "ASC"],
+      ['id', 'ASC'],
     ],
   });
 
@@ -29,14 +29,14 @@ exports.getAllQuestions = catchAsyncErrors(async (req, res, next) => {
   } else {
     res.status(401).json({
       success: false,
-      message: "unauthorized",
+      message: 'unauthorized',
     });
   }
 });
 
 exports.getStatus = catchAsyncErrors(async (req, res, next) => {
   const status = await Questions.findAll({
-    attributes: ["done"],
+    attributes: ['done'],
   });
 
   let statusArray = status.map((ques) => ques.dataValues.done);
@@ -55,15 +55,37 @@ exports.setStatus = catchAsyncErrors(async (req, res, next) => {
   if (question) {
     await question.set({ done: currStatus });
     await question.save();
-    console.log("done");
+    console.log('done');
     res.status(200).json({
       success: true,
-      message: "Status updated successfully",
+      message: 'Status updated successfully',
     });
   } else {
     res.status(401).json({
       success: false,
-      message: "unauthorized",
+      message: 'unauthorized',
+    });
+  }
+});
+
+exports.setNotes = catchAsyncErrors(async (req, res, next) => {
+  console.log(req.body);
+  let { id, noteData } = req.body;
+  const question = await Questions.findOne({
+    where: { id: id, userId: req.user },
+  });
+  if (question) {
+    await question.set({ notes: noteData });
+    await question.save();
+    console.log('done');
+    res.status(200).json({
+      success: true,
+      message: 'Status updated successfully',
+    });
+  } else {
+    res.status(401).json({
+      success: false,
+      message: 'unauthorized',
     });
   }
 });
