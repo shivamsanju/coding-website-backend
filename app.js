@@ -1,8 +1,11 @@
-const express = require('express')
+const express = require('express');
 const cors = require('cors');
-const path = require("path");
-console.log(require("dotenv").config({path: path.resolve(__dirname,'config.env')}));
-const session = require('express-session')
+const path = require('path');
+console.log(
+  require('dotenv').config({ path: path.resolve(__dirname, 'config.env') })
+);
+const session = require('express-session');
+
 var sess = {
   saveUninitialized: false,
   resave: false,
@@ -10,8 +13,8 @@ var sess = {
   cookie: {
     sameSite: 'none',
     secure: true,
-  }
-}
+  },
+};
 
 const app = express();
 
@@ -21,33 +24,48 @@ testConnection();
 
 // json parser
 app.use(express.json());
-app.use(cors({
+app.use(
+  cors({
     credentials: true,
-    origin:['https://shvm-leetcode-frontend.herokuapp.com','http://localhost:3000']
-}));
+    origin: [
+      'https://shvm-leetcode-frontend.herokuapp.com',
+      'http://localhost:3000',
+      'https://leetcodeproblems.netlify.app/',
+    ],
+  })
+);
 
-app.use(session(sess))
+app.use(session(sess));
 
 app.use((req, res, next) => {
-    const allowedOrigins = ['http://localhost:3000', 'https://shvm-leetcode-frontend.herokuapp.com'];
-    const origin = req.headers.origin;
-    if (allowedOrigins.includes(origin)) {
-         res.setHeader('Access-Control-Allow-Origin', origin);
-    }
-    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Accept, Content-Type")
-    res.setHeader("Access-Control-Allow-Credentials", true)
-    res.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH")
-    next();
-})
+  const allowedOrigins = [
+    'http://localhost:3000',
+    'https://shvm-leetcode-frontend.herokuapp.com',
+    'https://leetcodeproblems.netlify.app/',
+  ];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-Requested-With, Accept, Content-Type'
+  );
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH'
+  );
+  next();
+});
 
-
-app.listen(process.env.PORT || 8000, (res, err)=>{
-    if (err){
-        console.log(err)
-    } else {
-        console.log("server started")
-    }
-})
+app.listen(process.env.PORT || 8000, (res, err) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log('server started');
+  }
+});
 
 //routes
 const user = require('./routes/user.routes');
