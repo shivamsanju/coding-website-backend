@@ -89,3 +89,22 @@ exports.setNotes = catchAsyncErrors(async (req, res, next) => {
     });
   }
 });
+
+exports.getLeaderBoard = catchAsyncErrors(async (req, res, next) => {
+  const leaderData = await sequelize.query(
+    `SELECT username, count(done) AS done FROM (SELECT "Users".username, "Questions".done FROM "Questions" INNER JOIN "Users" USING ("userId")) AS a WHERE done = true GROUP BY username;`
+  );
+
+  if (leaderData) {
+    console.log('.......', leaderData[0]);
+    res.status(200).json({
+      success: true,
+      data: leaderData[0],
+    });
+  } else {
+    res.status(401).json({
+      success: false,
+      data: [],
+    });
+  }
+});

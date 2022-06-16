@@ -4,6 +4,7 @@ const {
   getStatus,
   setStatus,
   setNotes,
+  getLeaderBoard,
 } = require('../controllers/questions');
 const { isAuthenticatedUser } = require('../middleware/auth');
 
@@ -15,5 +16,6 @@ router
   .get(isAuthenticatedUser, getStatus)
   .post(isAuthenticatedUser, setStatus);
 router.route('/notes').post(isAuthenticatedUser, setNotes);
+router.route('/leaderboard').get(isAuthenticatedUser, getLeaderBoard);
 
 module.exports = router;

@@ -2,11 +2,14 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 
-
 const sendToken = catchAsyncErrors(async (user, statusCode, res) => {
-  const token = await jwt.sign({ userId: user.userId}, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRE,
-  });
+  const token = await jwt.sign(
+    { userId: user.userId },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.JWT_EXPIRE,
+    }
+  );
 
   const options = {
     httpOnly: true,
@@ -21,19 +24,18 @@ const sendToken = catchAsyncErrors(async (user, statusCode, res) => {
   });
 });
 
-
 //Login User
 exports.loginUser = async (req, res, next) => {
-    const { username, password } = req.body;
-  
-    const user = await User.findOne({ where: { username: username } });
-    if (!user) {
-      res.status(401).send({"success": false, "message":"unauthorized"});
-    }
-    console.log(user.password,password)
-    if (password !== user.password) {
-      res.status(401).send({"success": false, "message":"unauthorized"});
-    } else {
-      sendToken(user, 200, res);
-    }
-  };
+  const { username, password } = req.body;
+
+  const user = await User.findOne({ where: { username: username } });
+  if (!user) {
+    res.status(401).send({ success: false, message: 'unauthorized' });
+  }
+  console.log(user.password, password);
+  if (password !== user.password) {
+    res.status(401).send({ success: false, message: 'unauthorized' });
+  } else {
+    sendToken(user, 200, res);
+  }
+};
