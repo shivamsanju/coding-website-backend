@@ -30,7 +30,7 @@ app.use(
     origin: [
       'https://shvm-leetcode-frontend.herokuapp.com',
       'http://localhost:3000',
-      'https://leetcodeproblems.netlify.app',
+      'https://leetcodeproblems.vercel.app',
     ],
   })
 );
@@ -41,7 +41,7 @@ app.use((req, res, next) => {
   const allowedOrigins = [
     'http://localhost:3000',
     'https://shvm-leetcode-frontend.herokuapp.com',
-    'https://leetcodeproblems.netlify.app',
+    'https://leetcodeproblems.vercel.app',
   ];
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
