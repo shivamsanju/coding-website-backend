@@ -37,6 +37,7 @@ app.use((req, res, next) => {
   const allowedOrigins = [
     'http://localhost:3000',
     'https://leetcodeproblems.vercel.app',
+    'https://leetcodeproblems.vercel.apps',
   ];
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
