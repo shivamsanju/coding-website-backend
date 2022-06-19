@@ -42,7 +42,7 @@ exports.loginUser = async (req, res, next) => {
 //Signup User
 exports.signUpUser = async (req, res, next) => {
   const { username, password, confPassword } = req.body;
-  if (password !== confPassword) {
+  if (password != confPassword) {
     res
       .status(400)
       .send({ success: false, message: 'Passwords does not match' });
