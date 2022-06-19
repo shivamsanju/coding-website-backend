@@ -57,7 +57,7 @@ exports.signUpUser = async (req, res, next) => {
         await Questions.create(newques);
       })
     );
-    sendToken(newUser, 200, res);
+    sendToken(addedUser, 200, res);
   } catch (err) {
     console.log(err);
     res
