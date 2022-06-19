@@ -1,7 +1,7 @@
-const sequelize = require("../config/db");
-const DataTypes = require("sequelize");
+const sequelize = require('../config/db');
+const DataTypes = require('sequelize');
 
-const User = sequelize.define("User", {
+const User = sequelize.define('User', {
   userId: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -10,6 +10,7 @@ const User = sequelize.define("User", {
   username: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
   password: {
     type: DataTypes.STRING,
@@ -19,7 +20,7 @@ const User = sequelize.define("User", {
 
 const synchronizeTable = async () => {
   await User.sync();
-  console.log("The table for the User model was synchronized!");
+  console.log('The table for the User model was synchronized!');
 };
 
 synchronizeTable();

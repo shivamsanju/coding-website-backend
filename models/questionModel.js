@@ -1,6 +1,5 @@
 const sequelize = require('../config/db');
 const DataTypes = require('sequelize');
-// const questions = require("../data/questions")
 
 const Questions = sequelize.define('Questions', {
   id: {
@@ -64,14 +63,5 @@ const synchronizeTable = async () => {
 };
 
 synchronizeTable();
-
-// questions.forEach(async (question) => {
-//     try{
-//         let newques = {...question, userId: 2, done: false}
-//         await Questions.create(newques);
-//     } catch(err) {
-//         console.log(err);
-//     }
-// })
 
 module.exports = Questions;

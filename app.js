@@ -27,11 +27,7 @@ app.use(express.json());
 app.use(
   cors({
     credentials: true,
-    origin: [
-      'https://shvm-leetcode-frontend.herokuapp.com',
-      'http://localhost:3000',
-      'https://leetcodeproblems.vercel.app',
-    ],
+    origin: ['http://localhost:3000', 'https://leetcodeproblems.vercel.app'],
   })
 );
 
@@ -40,7 +36,6 @@ app.use(session(sess));
 app.use((req, res, next) => {
   const allowedOrigins = [
     'http://localhost:3000',
-    'https://shvm-leetcode-frontend.herokuapp.com',
     'https://leetcodeproblems.vercel.app',
   ];
   const origin = req.headers.origin;

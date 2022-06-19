@@ -1,6 +1,7 @@
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const Questions = require('../models/questionModel');
 const sequelize = require('../config/db');
+const questions = require('../data/questions');
 
 exports.getAllQuestions = catchAsyncErrors(async (req, res, next) => {
   const questions = await Questions.findAll({
@@ -92,7 +93,7 @@ exports.setNotes = catchAsyncErrors(async (req, res, next) => {
 
 exports.getLeaderBoard = catchAsyncErrors(async (req, res, next) => {
   const leaderData = await sequelize.query(
-    `SELECT username, count(done) AS done FROM (SELECT "Users".username, "Questions".done FROM "Questions" INNER JOIN "Users" USING ("userId")) AS a WHERE done = true GROUP BY username;`
+    `SELECT username, count(done) AS done FROM (SELECT "Users".username, "Questions".done FROM "Questions" INNER JOIN "Users" USING ("userId")) AS a WHERE done = true GROUP BY username ORDER BY done DESC;`
   );
 
   if (leaderData) {
@@ -107,4 +108,15 @@ exports.getLeaderBoard = catchAsyncErrors(async (req, res, next) => {
       data: [],
     });
   }
+});
+
+exports.addQuestion = catchAsyncErrors(async (req, res, next) => {
+  questions.forEach(async (question) => {
+    try {
+      let newques = { ...question, userId: req.userId, done: false };
+      await Questions.create(newques);
+    } catch (err) {
+      console.log(err);
+    }
+  });
 });
