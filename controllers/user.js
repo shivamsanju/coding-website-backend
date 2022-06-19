@@ -32,9 +32,7 @@ exports.loginUser = async (req, res, next) => {
   const user = await User.findOne({ where: { username: username } });
   if (!user) {
     res.status(401).send({ success: false, message: 'Invalid Credentials' });
-  }
-  console.log(user.password, password);
-  if (password !== user.password) {
+  } else if (password !== user.password) {
     res.status(401).send({ success: false, message: 'Invalid Credentials' });
   } else {
     sendToken(user, 200, res);
