@@ -55,6 +55,10 @@ const Questions = sequelize.define('Questions', {
     type: DataTypes.TEXT,
     allowNull: true,
   },
+  notes_header: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
 });
 
 const synchronizeTable = async () => {

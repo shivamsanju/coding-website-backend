@@ -2,7 +2,7 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const User = require('../models/userModel');
 const Questions = require('../models/questionModel');
 const jwt = require('jsonwebtoken');
-const questions = require('../data/questions');
+const questions = require('../data/striver');
 
 const sendToken = catchAsyncErrors(async (user, statusCode, res) => {
   const token = await jwt.sign(

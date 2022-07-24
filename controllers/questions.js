@@ -71,12 +71,12 @@ exports.setStatus = catchAsyncErrors(async (req, res, next) => {
 
 exports.setNotes = catchAsyncErrors(async (req, res, next) => {
   console.log(req.body);
-  let { id, noteData } = req.body;
+  let { id, notesHeader, noteData } = req.body;
   const question = await Questions.findOne({
     where: { id: id, userId: req.user },
   });
   if (question) {
-    await question.set({ notes: noteData });
+    await question.set({ notes_header: notesHeader, notes: noteData });
     await question.save();
     console.log('done');
     res.status(200).json({
